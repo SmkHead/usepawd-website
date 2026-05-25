@@ -1089,6 +1089,54 @@ footer {
   .how-row { padding: 52px 0; }
 }
 
+/* ── MOBILE HAMBURGER ── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column; justify-content: center; align-items: center;
+  gap: 5px; width: 40px; height: 40px; padding: 8px;
+  background: none; border: none; cursor: pointer; z-index: 300;
+}
+.nav-hamburger span {
+  display: block; width: 22px; height: 1.5px;
+  background: var(--ink); border-radius: 2px;
+  transition: transform 0.35s var(--ease), opacity 0.25s;
+  transform-origin: center;
+}
+.nav-hamburger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-hamburger.is-open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+/* ── MOBILE NAV OVERLAY ── */
+.nav-mobile {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--paper);
+  display: flex; flex-direction: column;
+  justify-content: center; align-items: flex-start;
+  padding: 100px 40px 60px;
+  gap: 4px;
+  transform: translateY(-100%);
+  transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  pointer-events: none;
+}
+.nav-mobile.is-open { transform: translateY(0); pointer-events: all; }
+.nav-mobile-link {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: clamp(38px, 11vw, 56px);
+  color: var(--ink); letter-spacing: -0.02em; line-height: 1.15;
+  padding: 6px 0;
+  transition: color 0.15s;
+}
+.nav-mobile-link:hover { color: var(--accent); }
+.nav-mobile-pill {
+  font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--muted);
+  margin-top: 32px; opacity: 0.5;
+}
+@media (max-width: 740px) {
+  .nav-hamburger { display: flex; }
+  .nav-pill { display: none; }
+}
+
 /* ── JOURNAL STRIP (homepage) ── */
 .journal-strip {
   padding: 80px 28px 90px;

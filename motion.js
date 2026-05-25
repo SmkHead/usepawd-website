@@ -408,3 +408,53 @@
     });
   });
 })();
+
+/* ── Mobile hamburger menu ────────────────────────────────────── */
+(function() {
+  const navInner = document.querySelector('.nav-inner');
+  if (!navInner) return;
+
+  const path = window.location.pathname;
+  const inSub = /\/(blog|shelters)\//.test(path);
+  const base = inSub ? '../' : '';
+
+  const btn = document.createElement('button');
+  btn.className = 'nav-hamburger';
+  btn.setAttribute('aria-label', 'Open menu');
+  btn.setAttribute('aria-expanded', 'false');
+  btn.innerHTML = '<span></span><span></span><span></span>';
+  navInner.appendChild(btn);
+
+  const overlay = document.createElement('div');
+  overlay.className = 'nav-mobile';
+  overlay.setAttribute('aria-hidden', 'true');
+  overlay.innerHTML =
+    '<a href="' + base + 'shelters.html" class="nav-mobile-link">shelter map</a>' +
+    '<a href="' + base + 'for-shelters.html" class="nav-mobile-link">for shelters</a>' +
+    '<a href="' + base + 'blog/index.html" class="nav-mobile-link">blog</a>' +
+    '<a href="' + base + 'faq.html" class="nav-mobile-link">faq</a>' +
+    '<a href="' + base + 'about.html" class="nav-mobile-link">about</a>' +
+    '<span class="nav-mobile-pill">coming to iOS 2026</span>';
+  document.body.appendChild(overlay);
+
+  function openMenu() {
+    overlay.classList.add('is-open');
+    btn.classList.add('is-open');
+    btn.setAttribute('aria-expanded', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMenu() {
+    overlay.classList.remove('is-open');
+    btn.classList.remove('is-open');
+    btn.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  btn.addEventListener('click', function() {
+    overlay.classList.contains('is-open') ? closeMenu() : openMenu();
+  });
+  overlay.querySelectorAll('a').forEach(function(a) { a.addEventListener('click', closeMenu); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
+})();
