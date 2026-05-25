@@ -1047,6 +1047,11 @@ footer {
 @media (max-width: 980px) {
   /* full dark on tablet/mobile — diagonal doesn't make sense in 1-col layout */
   .hero--split-dark::before { left: 0; clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  /* sub-text, form note, meta chips sit inside the dark panel on mobile — flip to light */
+  .hero--split-dark .hero-sub { color: rgba(246,241,232,0.80); }
+  .hero--split-dark .form-note { color: rgba(246,241,232,0.55); }
+  .hero--split-dark .meta-chip { color: rgba(246,241,232,0.65); }
+  .hero--split-dark .meta-divider { background: rgba(246,241,232,0.2); }
   .hero-split { grid-template-columns: 1fr; gap: 64px; }
   .hero-right { min-height: 540px; }
   .how-header-dark { padding: 72px 28px 64px; }
