@@ -1,0 +1,729 @@
+/* ── Shelters page — 2-column editorial layout ────────────────── */
+
+body.shelters-page {
+  background: var(--bg);
+}
+
+body.shelters-page nav {
+  border-bottom: 1px solid var(--border);
+}
+
+/* APP SHELL — map fills one full viewport height */
+.sh-app {
+  height: calc(100vh - 70px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* FLOATING LEFT COLUMN — anchored top + bottom, list fills the space */
+.sh-overlay-col {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  bottom: 14px;
+  width: clamp(300px, 24vw, 380px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* Card 1: takes all remaining height above the CTA card */
+/* padding: 0 overrides the global `section { padding: 110px 28px }` in style.css */
+.sh-results {
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 22px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+  pointer-events: all;
+}
+
+/* ── EDITORIAL HEADER — tight, number flush to top ── */
+.sh-panel-top {
+  flex-shrink: 0;
+  padding: 12px 14px 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--paper);
+}
+
+/* Number + label: flex-start so label never affects row height */
+.sh-hero-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  flex-wrap: nowrap;
+  margin-bottom: 9px;
+}
+
+.sh-big-num {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 42px;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.03em;
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.sh-hero-copy {
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.sh-hero-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1.35;
+  font-weight: 700;
+  /* prevent wrapping — truncate with ellipsis if too long */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* hide the sub-label — saves vertical space */
+.sh-hero-sub {
+  display: none;
+}
+
+/* SEARCH */
+.sh-search-wrap {
+  position: relative;
+  margin-bottom: 8px;
+}
+.sh-search-wrap svg {
+  position: absolute;
+  left: 13px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  pointer-events: none;
+}
+#shelter-search {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px 0 34px;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+#shelter-search::placeholder { color: var(--muted); }
+#shelter-search:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(255,91,60,0.1);
+}
+
+/* FILTER BAR — 4 type chips, no overflow */
+.sh-filter-bar {
+  margin-bottom: 5px;
+}
+
+.sh-chips {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.sh-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 9px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: all 0.15s var(--ease);
+}
+.sh-chip:hover {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.sh-chip.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.sh-chip.active .sh-chip-dot {
+  border-color: rgba(246,241,232,0.35);
+  box-shadow: none;
+}
+
+.sh-chip-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.5);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+/* DISTANCE + LOCATE ROW — single nowrap line */
+.sh-dist-bar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.sh-distbtn {
+  height: 24px;
+  padding: 0 8px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  transition: all 0.15s var(--ease);
+}
+.sh-distbtn:hover { border-color: var(--ink); color: var(--ink); }
+.sh-distbtn.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+.sh-locate {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+  padding: 0 9px;
+  border: 1.5px solid var(--accent);
+  border-radius: 100px;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  white-space: nowrap;
+  flex-shrink: 0;
+  margin-left: auto;
+  transition: all 0.18s var(--ease);
+}
+.sh-locate:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ── SHELTER LIST ── */
+.sh-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 10px 10px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  background: var(--paper);
+  /* fade top + bottom so cards dissolve in/out */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    black 14px,
+    black calc(100% - 14px),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0px,
+    black 14px,
+    black calc(100% - 14px),
+    transparent 100%
+  );
+}
+.sh-list::-webkit-scrollbar { width: 4px; }
+.sh-list::-webkit-scrollbar-track { background: transparent; }
+.sh-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 100px; }
+.sh-list::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* ── ROUND CARD — compact ── */
+.shelter-card {
+  display: grid;
+  grid-template-columns: 38px 1fr 28px;
+  align-items: center;
+  column-gap: 10px;
+  padding: 10px 10px 10px 12px;
+  background: var(--paper);
+  border: none;
+  border-radius: 16px;
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.04),
+    0 3px 10px rgba(0,0,0,0.07);
+  transition: transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.shelter-card:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.04),
+    0 8px 22px rgba(0,0,0,0.11);
+}
+.shelter-card.active {
+  box-shadow:
+    0 0 0 2px var(--accent),
+    0 6px 18px rgba(255,91,60,0.18);
+}
+
+/* type-tinted backgrounds */
+.shelter-card[data-type="municipal"] { background: #eaf2ea; }
+.shelter-card[data-type="humane"]    { background: #fdeeed; }
+.shelter-card[data-type="rescue"]    { background: #eeebf8; }
+
+.shelter-avatar {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 11px; font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.shelter-card-body {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.shelter-card-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.25;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.shelter-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.card-dist {
+  background: rgba(61,107,65,0.12);
+  color: #3D6B41;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+.shelter-type-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.03em;
+  padding: 2px 7px;
+  border-radius: 100px;
+  margin-top: 1px;
+}
+
+.card-arrow {
+  width: 28px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(26,26,26,0.07);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: all .18s var(--ease-spring);
+}
+.card-arrow:hover {
+  background: var(--accent);
+  color: #fff;
+  transform: translateX(2px);
+}
+
+.shelter-empty {
+  padding: 52px 20px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+/* ── CTA CARD (separate floating card) ── */
+.sh-panel-cta {
+  flex-shrink: 0;
+  padding: 18px 20px;
+  background: var(--ink);
+  border: 1.5px solid var(--ink);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.06);
+  pointer-events: all;
+}
+.sh-panel-cta-title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  color: #fff;
+  line-height: 1.05;
+  margin-bottom: 7px;
+  letter-spacing: -0.02em;
+}
+.sh-panel-cta p {
+  font-size: 12px;
+  color: rgba(246,241,232,0.6);
+  line-height: 1.55;
+  margin: 0 0 13px;
+}
+.sh-panel-cta-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 13px;
+  border: 1px solid rgba(246,241,232,0.22);
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: rgba(246,241,232,0.7);
+  letter-spacing: 0.04em;
+}
+
+/* force custom cursor everywhere — kill Leaflet's cursor overrides */
+#shelter-map,
+#shelter-map *,
+.leaflet-container,
+.leaflet-container * {
+  cursor: none !important;
+}
+
+/* ── MAP — fills entire app shell ── */
+.sh-map-pane {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+#shelter-map {
+  width: 100%; height: 100%;
+  filter: saturate(0.88);
+}
+
+/* Leaflet zoom */
+.leaflet-control-zoom {
+  border: 1.5px solid var(--ink) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 6px 18px -10px rgba(0,0,0,0.2) !important;
+}
+.leaflet-control-zoom a {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: none !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 700 !important;
+  width: 34px !important; height: 34px !important;
+  line-height: 34px !important;
+  font-size: 16px !important;
+}
+.leaflet-control-zoom a:first-child {
+  border-bottom: 1px solid var(--border) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--accent) !important;
+  color: #fff !important;
+}
+.leaflet-top.leaflet-right { top: 14px !important; right: 14px !important; }
+
+/* push attribution away from the legend — center it at the bottom instead */
+.leaflet-bottom.leaflet-right {
+  right: auto !important;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 6px !important;
+}
+.leaflet-control-attribution {
+  background: rgba(251,246,236,0.92) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: 100px !important;
+  padding: 4px 10px !important;
+  font-family: var(--font-mono) !important;
+  font-size: 9px !important;
+  margin: 10px !important;
+}
+
+/* PINS */
+.shelter-pin {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  transition: transform .2s var(--ease-spring);
+}
+.shelter-pin:hover { transform: scale(1.4); }
+.shelter-pin.pin-municipal { background: #7A9E7E; }
+.shelter-pin.pin-humane    { background: #FF5B3C; }
+.shelter-pin.pin-rescue    { background: #8B6FD4; }
+.shelter-pin-active {
+  transform: scale(1.6);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3), 0 0 0 3px rgba(255,255,255,0.95);
+  z-index: 1000 !important;
+}
+
+/* POPUP */
+.pawd-popup .leaflet-popup-content-wrapper {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 12px;
+  box-shadow: 0 12px 28px -10px rgba(0,0,0,0.18);
+  padding: 0;
+}
+.pawd-popup .leaflet-popup-content { margin: 0; padding: 14px 16px; }
+.pawd-popup .leaflet-popup-tip {
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-top: none; border-left: none;
+}
+.pawd-popup .leaflet-popup-close-button {
+  color: var(--muted); font-size: 18px; padding: 6px 8px;
+}
+
+.shelter-popup-name {
+  font-family: var(--font-serif); font-style: italic;
+  font-size: 16px; color: var(--ink);
+  line-height: 1.2; margin-bottom: 4px;
+}
+.shelter-popup-loc {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--muted); margin-bottom: 10px;
+  letter-spacing: 0.04em;
+}
+.shelter-popup-link {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--accent); letter-spacing: 0.04em;
+  text-decoration: underline; text-underline-offset: 3px;
+}
+
+/* SEARCH THIS AREA */
+.sh-search-area {
+  display: none;
+  position: absolute;
+  top: 18px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  align-items: center; gap: 6px;
+  padding: 9px 18px;
+  background: var(--paper);
+  border: 1.5px solid var(--ink);
+  border-radius: 100px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  color: var(--ink); white-space: nowrap;
+  box-shadow: 0 10px 22px -10px rgba(0,0,0,0.2);
+  transition: all .2s var(--ease-spring);
+}
+.sh-search-area:hover {
+  background: var(--accent); border-color: var(--accent); color: #fff;
+  transform: translateX(-50%) translateY(-2px);
+}
+
+/* LEGEND */
+.sh-legend {
+  position: absolute;
+  bottom: 18px; right: 16px;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--paper); border: 1.5px solid var(--ink);
+  border-radius: 100px;
+  padding: 7px 14px;
+  box-shadow: 0 6px 18px -10px rgba(0,0,0,0.15);
+  z-index: 400;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.04em;
+}
+.sh-leg { display: inline-flex; align-items: center; gap: 6px; color: var(--ink); }
+.sh-leg-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1.5px solid #fff;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+}
+
+/* ── BROWSE BY CITY ──────────────────────────────────────────────── */
+.sh-browse {
+  padding: 80px 28px 100px;
+  border-top: 1.5px solid var(--border);
+  background: var(--paper);
+}
+.sh-browse-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.sh-browse-inner .section-label { margin-bottom: 12px; }
+.sh-browse-sub {
+  font-size: 16px; color: var(--ink-soft);
+  line-height: 1.6; margin-bottom: 52px;
+  max-width: 540px;
+}
+.sh-browse-states {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 40px 32px;
+}
+.sh-browse-state-name {
+  font-family: var(--font-serif);
+  font-size: 18px; font-weight: 400;
+  color: var(--ink); margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1.5px solid var(--border);
+  display: block; text-decoration: none;
+}
+.sh-browse-state-link:hover { color: var(--accent); }
+.sh-browse-state-arrow { font-style: normal; font-size: 14px; opacity: 0.4; }
+.sh-browse-city-list {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.sh-browse-city-link {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px; color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s;
+}
+.sh-browse-city-link:hover { color: var(--accent); }
+.sh-browse-city-link span {
+  font-family: var(--font-mono); font-size: 10px;
+  text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sh-overlay-col { width: 280px; }
+}
+@media (max-width: 720px) {
+  .sh-app { height: auto; position: static; display: flex; flex-direction: column; overflow: visible; }
+  .sh-overlay-col {
+    position: static;
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+  }
+  .sh-list { max-height: 320px; min-height: 0; }
+  .sh-map-pane { position: static; height: 460px; width: 100%; }
+  .sh-legend { display: none; }
+  .sh-big-num { font-size: 52px; }
+}
+@media (max-width: 480px) {
+  .sh-map-pane { height: 340px; }
+  .sh-panel-top { padding: 14px 14px 12px; }
+}
+
+/* ── POPUP DONATE BUTTON ─────────────────────────────────────────── */
+/* Fix cursor on all links inside Leaflet popups */
+.pawd-popup a { cursor: pointer !important; }
+
+.shelter-popup-donate {
+  display: block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--accent);
+  color: #fff !important;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+.shelter-popup-donate:hover { opacity: 0.82; }
+
+/* ── DONATE STRIP ────────────────────────────────────────────────── */
+.sh-donate {
+  background: var(--ink);
+  padding: 72px 28px 80px;
+  -webkit-transform: translate3d(0,0,0);
+  transform: translate3d(0,0,0);
+}
+.sh-donate-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+.sh-donate-left { flex: 1; min-width: 0; }
+.sh-donate-title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 52px);
+  color: var(--paper);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  margin: 10px 0 18px;
+}
+.sh-donate-title em { color: var(--accent); font-style: italic; }
+.sh-donate-left p {
+  font-size: 16px;
+  color: rgba(246,241,232,0.65);
+  line-height: 1.65;
+  max-width: 480px;
+}
+.sh-donate-left p a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; }
+.sh-donate-right {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.sh-donate-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 26px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 100px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.18s, transform 0.18s var(--ease);
+}
+.sh-donate-btn:hover { opacity: 0.88; transform: translateY(-2px); }
+.sh-donate-note {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: rgba(246,241,232,0.35);
+}
+@media (max-width: 760px) {
+  .sh-donate-inner { flex-direction: column; gap: 32px; }
+  .sh-donate-right { width: 100%; }
+  .sh-donate-btn { width: 100%; justify-content: center; }
+}

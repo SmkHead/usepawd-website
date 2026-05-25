@@ -1,0 +1,134 @@
+/* ── State shelter landing pages ──────────────────────────────── */
+
+/* ── City grid ───────────────────────────────────────────────── */
+.sp-cities {
+  padding: 64px 28px 96px;
+  border-top: 1.5px solid var(--ink);
+}
+.sp-cities-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.sp-cities-inner .section-label { margin-bottom: 40px; }
+
+.sp-city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+}
+
+.sp-city-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 22px;
+  text-decoration: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.sp-city-card:hover {
+  border-color: var(--ink);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+}
+.sp-city-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1.2;
+}
+.sp-city-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sp-city-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.sp-city-types {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.sp-type-pill {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+/* ── Other states ────────────────────────────────────────────── */
+.sp-other-states {
+  padding: 64px 28px 80px;
+  border-top: 1.5px solid var(--border);
+}
+.sp-other-states-inner {
+  max-width: var(--max);
+  margin: 0 auto;
+}
+.sp-other-states-inner .section-label { margin-bottom: 24px; }
+.sp-states-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+.sp-state-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 7px 14px;
+  font-size: 13px;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+}
+.sp-state-link:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+.sp-state-link span {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  transition: color 0.18s;
+}
+.sp-state-link:hover span { color: rgba(246,241,232,0.6); }
+
+.sp-all-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 700;
+}
+.sp-all-link:hover { text-decoration: underline; }
+
+/* ── Responsive ──────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .sp-cities { padding: 48px 20px 72px; }
+  .sp-other-states { padding-left: 20px; padding-right: 20px; }
+  .sp-city-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 400px) {
+  .sp-city-grid { grid-template-columns: 1fr; }
+}

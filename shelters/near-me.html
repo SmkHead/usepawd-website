@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Animal Shelters Near Me — Find Local Rescues | pawd.</title>
+  <meta name="description" content="Find animal shelters and rescues near your location. pawd. detects your city and shows you every shelter close by — with addresses, websites, and adoption info." />
+  <meta name="theme-color" content="#FF5B3C" />
+  <link rel="canonical" href="https://usepawd.com/shelters/near-me" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="../style.css?v=12" />
+  <link rel="stylesheet" href="../city-pages.css?v=1" />
+  <meta name="robots" content="index, follow" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://usepawd.com/shelters/near-me" />
+  <meta property="og:title" content="Animal Shelters Near Me | pawd." />
+  <meta property="og:description" content="Find animal shelters and rescues near your location. Instantly see every shelter close by with pawd." />
+  <meta property="og:image" content="https://usepawd.com/og-image.png" />
+  <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Animal Shelters Near Me",
+    "url": "https://usepawd.com/shelters/near-me",
+    "description": "Find animal shelters and rescue organizations near your current location across the United States.",
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type":"ListItem", "position":1, "name":"Home", "item":"https://usepawd.com" },
+        { "@type":"ListItem", "position":2, "name":"Shelter Map", "item":"https://usepawd.com/shelters" },
+        { "@type":"ListItem", "position":3, "name":"Near Me" }
+      ]
+    }
+  }</script>
+  <style>
+    .nm-hero { padding: 100px 28px 56px; }
+    .nm-hero-inner { max-width: var(--max); margin: 0 auto; }
+    .nm-breadcrumb {
+      display: flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11px;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      color: var(--muted); margin-bottom: 32px;
+    }
+    .nm-breadcrumb a { color: var(--muted); text-decoration: none; }
+    .nm-breadcrumb a:hover { color: var(--ink); }
+    .nm-title {
+      font-family: var(--font-serif);
+      font-size: clamp(44px, 6vw, 88px);
+      line-height: 1.05; letter-spacing: -0.02em;
+      font-weight: 400; margin-bottom: 24px;
+    }
+    .nm-title em { color: var(--accent); font-style: italic; }
+
+    /* State / Loading */
+    .nm-state { padding: 64px 28px 96px; border-top: 1.5px solid var(--ink); }
+    .nm-state-inner { max-width: var(--max); margin: 0 auto; }
+
+    /* Detecting */
+    .nm-detecting {
+      display: flex; align-items: center; gap: 14px;
+      font-size: 17px; color: var(--ink-soft);
+    }
+    .nm-spinner {
+      width: 20px; height: 20px; border-radius: 50%;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Found city */
+    .nm-city-found { display: none; }
+    .nm-city-found .section-label { margin-bottom: 16px; }
+    .nm-city-name {
+      font-family: var(--font-serif);
+      font-size: 36px; font-weight: 400;
+      color: var(--ink); margin-bottom: 8px;
+    }
+    .nm-city-sub { font-size: 16px; color: var(--ink-soft); margin-bottom: 32px; }
+    .nm-city-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .nm-go-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: 100px;
+      padding: 12px 24px; font-size: 14px;
+      font-family: var(--font-mono); text-transform: uppercase;
+      letter-spacing: 0.07em; cursor: pointer;
+      text-decoration: none;
+      transition: opacity 0.15s;
+    }
+    .nm-go-btn:hover { opacity: 0.88; }
+    .nm-map-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 11px 22px; font-size: 13px; color: var(--ink);
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .nm-map-btn:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+
+    /* No location / error */
+    .nm-no-location { display: none; }
+    .nm-no-location p { font-size: 16px; color: var(--ink-soft); margin-bottom: 28px; max-width: 480px; }
+
+    /* Manual search */
+    .nm-search-wrap {
+      display: flex; gap: 10px; max-width: 480px; flex-wrap: wrap;
+    }
+    .nm-search-input {
+      flex: 1; min-width: 200px;
+      border: 1.5px solid var(--border);
+      border-radius: 100px; padding: 11px 20px;
+      font-size: 14px; color: var(--ink);
+      background: var(--paper);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .nm-search-input:focus { border-color: var(--ink); }
+    .nm-search-input::placeholder { color: var(--muted); }
+
+    /* Popular cities fallback */
+    .nm-popular { padding: 64px 28px; border-top: 1.5px solid var(--border); }
+    .nm-popular-inner { max-width: var(--max); margin: 0 auto; }
+    .nm-popular-inner .section-label { margin-bottom: 24px; }
+    .nm-popular-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .nm-popular-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      border: 1.5px solid var(--border); border-radius: 100px;
+      padding: 7px 16px; font-size: 13px; color: var(--ink);
+      text-decoration: none;
+      transition: border-color 0.18s, background 0.18s, color 0.18s;
+    }
+    .nm-popular-link:hover { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+    .nm-popular-link span {
+      font-family: var(--font-mono); font-size: 10px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      color: var(--muted); transition: color 0.18s;
+    }
+    .nm-popular-link:hover span { color: rgba(246,241,232,0.6); }
+  </style>
+</head>
+<body>
+
+  <div class="bg-fx" aria-hidden="true">
+    <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  </div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="../index.html" class="wordmark magnetic" data-magnet="0.4">pawd<span class="dot"></span></a>
+      <div class="nav-right">
+        <a href="../shelters.html" class="nav-link" style="background:rgba(26,26,26,0.06);color:var(--ink)">shelter map</a>
+        <a href="../for-shelters.html" class="nav-link">for shelters</a>
+        <a href="../faq.html" class="nav-link">faq</a>
+        <a href="../about.html" class="nav-link">about</a>
+        <span class="nav-pill">coming to App Store</span>
+      </div>
+    </div>
+  </nav>
+
+  <section class="nm-hero">
+    <div class="nm-hero-inner">
+      <nav class="nm-breadcrumb" aria-label="breadcrumb">
+        <a href="../index.html">home</a>
+        <span>→</span>
+        <a href="../shelters.html">shelter map</a>
+        <span>→</span>
+        <span>near me</span>
+      </nav>
+      <h1 class="nm-title">Animal Shelters<br><em>Near Me</em></h1>
+      <p class="cp-hero-sub">Find every shelter and rescue organization close to you. We'll detect your location and show you all your local options.</p>
+    </div>
+  </section>
+
+  <section class="nm-state">
+    <div class="nm-state-inner">
+
+      <!-- detecting state -->
+      <div class="nm-detecting" id="nm-detecting">
+        <div class="nm-spinner"></div>
+        <span>detecting your location…</span>
+      </div>
+
+      <!-- city found state -->
+      <div class="nm-city-found" id="nm-city-found">
+        <div class="section-label">your location</div>
+        <div class="nm-city-name" id="nm-city-display"></div>
+        <p class="nm-city-sub" id="nm-city-sub"></p>
+        <div class="nm-city-actions">
+          <a href="#" id="nm-go-btn" class="nm-go-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            see shelters in my city
+          </a>
+          <a href="../shelters.html" class="nm-map-btn">view on map →</a>
+        </div>
+      </div>
+
+      <!-- no location state -->
+      <div class="nm-no-location" id="nm-no-location">
+        <div class="section-label">search by city</div>
+        <p>Enter your city below to find shelters near you, or <a href="../shelters.html" style="color:var(--accent)">browse the full map</a>.</p>
+        <div class="nm-search-wrap">
+          <input type="text" class="nm-search-input" id="nm-search-input" placeholder="e.g. Austin, TX" autocomplete="off" />
+          <button class="nm-go-btn" id="nm-search-btn" type="button">
+            find shelters
+          </button>
+        </div>
+        <p id="nm-search-error" style="color:var(--accent);font-size:13px;margin-top:12px;display:none">No city page found — try the <a href="../shelters.html" style="color:var(--accent)">shelter map</a> instead.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Popular cities fallback / always visible -->
+  <section class="nm-popular">
+    <div class="nm-popular-inner">
+      <div class="section-label">popular cities</div>
+      <div class="nm-popular-grid">
+        <a href="/shelters/new-york-ny.html" class="nm-popular-link">New York, NY <span>7</span></a>
+        <a href="/shelters/los-angeles-ca.html" class="nm-popular-link">Los Angeles, CA <span>7</span></a>
+        <a href="/shelters/chicago-il.html" class="nm-popular-link">Chicago, IL <span>6</span></a>
+        <a href="/shelters/houston-tx.html" class="nm-popular-link">Houston, TX <span>4</span></a>
+        <a href="/shelters/phoenix-az.html" class="nm-popular-link">Phoenix, AZ <span>5</span></a>
+        <a href="/shelters/denver-co.html" class="nm-popular-link">Denver, CO <span>2</span></a>
+        <a href="/shelters/seattle-wa.html" class="nm-popular-link">Seattle, WA <span>2</span></a>
+        <a href="/shelters/atlanta-ga.html" class="nm-popular-link">Atlanta, GA <span>1</span></a>
+        <a href="/shelters/nashville-tn.html" class="nm-popular-link">Nashville, TN <span>3</span></a>
+        <a href="/shelters/austin-tx.html" class="nm-popular-link">Austin, TX <span>1</span></a>
+        <a href="/shelters/portland-or.html" class="nm-popular-link">Portland, OR <span>4</span></a>
+        <a href="/shelters/las-vegas-nv.html" class="nm-popular-link">Las Vegas, NV <span>2</span></a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-big">pawd<span class="accent">.</span></div>
+      <div class="footer-left">
+        <nav class="footer-links">
+          <a href="../index.html">home</a>
+          <a href="../shelters.html">shelters</a>
+          <a href="../for-shelters.html">for shelters</a>
+          <a href="../about.html">about</a>
+          <a href="../privacy.html">privacy</a>
+          <a href="../terms.html">terms</a>
+        </nav>
+      </div>
+      <div class="footer-right"><a href="mailto:hello@usepawd.com">hello@usepawd.com</a></div>
+      <div class="footer-meta">
+        <span>© 2026 pawd. — made in new york</span>
+        <span>shelter data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>, ODbL</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ── city slug helper (matches generate-city-pages.js) ────────────────────
+    function citySlug(city, state) {
+      return city.toLowerCase().replace(/[^a-z0-9\s]/g,'').trim().replace(/\s+/g,'-') + '-' + state.toLowerCase();
+    }
+
+    var detecting  = document.getElementById('nm-detecting');
+    var cityFound  = document.getElementById('nm-city-found');
+    var noLocation = document.getElementById('nm-no-location');
+    var cityDisplay = document.getElementById('nm-city-display');
+    var citySub     = document.getElementById('nm-city-sub');
+    var goBtn       = document.getElementById('nm-go-btn');
+
+    function showNoLocation() {
+      detecting.style.display = 'none';
+      noLocation.style.display = 'block';
+    }
+
+    function showCityFound(city, state) {
+      detecting.style.display = 'none';
+      var slug = citySlug(city, state);
+      cityDisplay.textContent = city + ', ' + state;
+      citySub.textContent = 'We found shelters in ' + city + ', ' + state + '. Tap below to see them all.';
+      goBtn.href = '/shelters/' + slug;
+      cityFound.style.display = 'block';
+    }
+
+    // ── Try geolocation ──────────────────────────────────────────────────────
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) {
+          var lat = pos.coords.latitude;
+          var lon = pos.coords.longitude;
+          // Reverse geocode with Nominatim
+          fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lon, {
+            headers: { 'Accept-Language': 'en' }
+          })
+          .then(function(r){ return r.json(); })
+          .then(function(d) {
+            var addr = d.address || {};
+            var city  = addr.city || addr.town || addr.village || addr.county || '';
+            var stFull = addr.state || '';
+            var STATE_ABBR = {
+              'Alabama':'AL','Alaska':'AK','Arizona':'AZ','Arkansas':'AR',
+              'California':'CA','Colorado':'CO','Connecticut':'CT','Delaware':'DE',
+              'Florida':'FL','Georgia':'GA','Hawaii':'HI','Idaho':'ID',
+              'Illinois':'IL','Indiana':'IN','Iowa':'IA','Kansas':'KS',
+              'Kentucky':'KY','Louisiana':'LA','Maine':'ME','Maryland':'MD',
+              'Massachusetts':'MA','Michigan':'MI','Minnesota':'MN','Mississippi':'MS',
+              'Missouri':'MO','Montana':'MT','Nebraska':'NE','Nevada':'NV',
+              'New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY',
+              'North Carolina':'NC','North Dakota':'ND','Ohio':'OH','Oklahoma':'OK',
+              'Oregon':'OR','Pennsylvania':'PA','Rhode Island':'RI','South Carolina':'SC',
+              'South Dakota':'SD','Tennessee':'TN','Texas':'TX','Utah':'UT',
+              'Vermont':'VT','Virginia':'VA','Washington':'WA','West Virginia':'WV',
+              'Wisconsin':'WI','Wyoming':'WY','District of Columbia':'DC'
+            };
+            var state = addr.state_code || STATE_ABBR[stFull] || '';
+            if (city && state) {
+              showCityFound(city, state);
+            } else {
+              showNoLocation();
+            }
+          })
+          .catch(function(){ showNoLocation(); });
+        },
+        function() { showNoLocation(); },
+        { timeout: 8000 }
+      );
+    } else {
+      showNoLocation();
+    }
+
+    // ── Manual search ────────────────────────────────────────────────────────
+    document.getElementById('nm-search-btn').addEventListener('click', doSearch);
+    document.getElementById('nm-search-input').addEventListener('keydown', function(e){
+      if (e.key === 'Enter') doSearch();
+    });
+
+    function doSearch() {
+      var val = document.getElementById('nm-search-input').value.trim();
+      if (!val) return;
+      // Try to parse "City, ST" format
+      var parts = val.split(',');
+      var city  = parts[0].trim();
+      var state = (parts[1] || '').trim().toUpperCase().replace(/[^A-Z]/g,'').slice(0,2);
+      if (city && state) {
+        var slug = citySlug(city, state);
+        // Try to navigate — if page doesn't exist, show error
+        var link = '/shelters/' + slug + '.html';
+        fetch(link + '.html', { method: 'HEAD' })
+          .then(function(r) {
+            if (r.ok) { window.location.href = link; }
+            else { document.getElementById('nm-search-error').style.display = 'block'; }
+          })
+          .catch(function() { window.location.href = link; }); // try anyway
+      } else {
+        document.getElementById('nm-search-error').style.display = 'block';
+      }
+    }
+  </script>
+
+  <script src="../motion.js?v=6"></script>
+</body>
+</html>

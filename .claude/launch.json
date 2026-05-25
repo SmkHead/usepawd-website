@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "pawd-site",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["/tmp/pawd-server2.js"],
+      "port": 3457
+    }
+  ]
+}
