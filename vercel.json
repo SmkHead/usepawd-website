@@ -1,4 +1,12 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "usepawd.com" }],
+      "destination": "https://www.usepawd.com/$1",
+      "permanent": true
+    }
+  ]
 }
