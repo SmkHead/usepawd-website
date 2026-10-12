@@ -4,9 +4,19 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "host", "value": "usepawd.com" }],
+      "has": [
+        {
+          "type": "host",
+          "value": "usepawd.com"
+        }
+      ],
       "destination": "https://www.usepawd.com/$1",
       "permanent": true
+    },
+    {
+      "source": "/ig",
+      "destination": "https://dash.usepawd.com/go/ig",
+      "permanent": false
     }
   ]
 }
