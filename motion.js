@@ -434,7 +434,7 @@
     '<a href="' + base + 'blog/index.html" class="nav-mobile-link">blog</a>' +
     '<a href="' + base + 'faq.html" class="nav-mobile-link">faq</a>' +
     '<a href="' + base + 'about.html" class="nav-mobile-link">about</a>' +
-    '<span class="nav-mobile-pill">coming to iOS 2026</span>';
+    '<a class="nav-mobile-pill" href="https://apps.apple.com/us/app/pawd/id6773129106" target="_blank" rel="noopener" style="text-decoration:none">on the App Store</a>';
   document.body.appendChild(overlay);
 
   function openMenu() {
