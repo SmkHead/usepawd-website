@@ -260,6 +260,8 @@ h1.hero-title .word.curly { font-style: italic; }
 .btn-primary:hover { transform: translateY(-2px); }
 .btn-primary:hover::after { transform: translateY(0); }
 .btn-primary svg { transition: transform .3s var(--ease-spring); }
+/* Hero App Store button: on the dark hero, so it's orange (an ink button vanishes there). */
+.hero-left .btn-primary { background: var(--accent); color: #fff; margin-bottom: 14px; }
 .btn-primary:hover svg { transform: translateX(4px) rotate(-12deg); }
 
 .form-note {
